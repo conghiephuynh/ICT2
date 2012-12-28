@@ -1,0 +1,623 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Event sheet 1</name>
+    <events>
+        <variable constant="0" name="startTime" static="0" type="number">0</variable>
+        <variable constant="0" name="bStatAutumn" static="0" type="number">1</variable>
+        <variable constant="0" name="bStartWinter" static="0" type="number">1</variable>
+        <variable constant="0" name="bStartRaining" static="0" type="number">1</variable>
+        <variable constant="0" name="iShootable" static="0" type="number">1</variable>
+        <variable constant="0" name="iCheckPickups" static="0" type="number">0</variable>
+        <variable constant="0" name="iNumber" static="0" type="number">0</variable>
+        <variable constant="0" name="iShield" static="0" type="number">5</variable>
+        <variable constant="0" name="iAmmo" static="0" type="number">100</variable>
+        <event-group description="" title="Player" />
+        <event-block>
+            <conditions>
+                <condition id="0" name="On collision with another object" type="sPlayer">
+                    <param id="0" name="Object">sAmmo</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Destroy" type="sAmmo" />
+                <action id="-10" name="Add to" type="System">
+                    <param id="0" name="Variable">iAmmo</param>
+                    <param id="1" name="Value">30</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On collision with another object" type="sPlayer">
+                    <param id="0" name="Object">sShield</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Destroy" type="sShield" />
+                <action id="-10" name="Add to" type="System">
+                    <param id="0" name="Variable">iShield</param>
+                    <param id="1" name="Value">5</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="1" name="Is overlapping another object" type="sPlayer">
+                    <param id="0" name="Object">sBase</param>
+                </condition>
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="-6" name="Every X seconds" type="System">
+                            <param id="0" name="Interval (seconds)">1</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-10" name="Add to" type="System">
+                            <param id="0" name="Variable">iAmmo</param>
+                            <param id="1" name="Value">10</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-6" name="Every X seconds" type="System">
+                            <param id="0" name="Interval (seconds)">2</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-11" name="Add to" type="sPlayer">
+                            <param id="0" name="Instance variable">iHealth</param>
+                            <param id="1" name="Value">5</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-group description="" title="System">
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="-7" name="Compare time" type="System">
+                            <param id="0" name="Comparison">0</param>
+                            <param id="1" name="Time (seconds)">random(5,6)</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-13" name="Set boolean" type="sPlayer">
+                            <param id="0" name="Instance variable">bRaining</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                        <action id="0" name="Play" type="Audio">
+                            <param id="0" name="Audio file">rain_loop</param>
+                            <param id="2" name="Loop">1</param>
+                            <param id="3" name="Volume">-10</param>
+                            <param id="1" name="Tag (optional)">&quot;rain&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-block>
+            <conditions>
+                <condition id="-6" name="Every X seconds" type="System">
+                    <param id="0" name="Interval (seconds)">random(3,4)</param>
+                </condition>
+                <condition id="-14" name="Compare variable" type="System">
+                    <param id="0" name="Variable">iNumber</param>
+                    <param id="1" name="Comparison">3</param>
+                    <param id="2" name="Value">30</param>
+                </condition>
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="-16" name="Pick random instance" type="System">
+                            <param id="0" name="Object">Point2</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Spawn another object" type="Point2">
+                            <param id="0" name="Object">jBeeBee</param>
+                            <param id="1" name="Layer">1</param>
+                            <param id="2" name="Image point">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="-1" name="Every tick" type="System" />
+            </conditions>
+            <actions>
+                <action id="0" name="Set text" type="txtAmmo">
+                    <param id="0" name="Text">&quot;x&quot;&amp;iAmmo</param>
+                </action>
+                <action id="0" name="Set text" type="txtShield">
+                    <param id="0" name="Text">&quot;x&quot;&amp;iShield</param>
+                </action>
+                <action id="-5" name="Set width" type="bar">
+                    <param id="0" name="Width">(self.initialwidth+(sPlayer.iHealth-sPlayer.iMaxHealth)*(self.initialwidth/sPlayer.iMaxHealth))</param>
+                </action>
+                <action id="-10" name="Set value" type="sPlayer">
+                    <param id="0" name="Instance variable">iHealth</param>
+                    <param id="1" name="Value">clamp(sPlayer.iHealth, 0, sPlayer.iMaxHealth)</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="-4" name="Is outside layout" type="sBullet" />
+            </conditions>
+            <actions>
+                <action id="-9" name="Destroy" type="sBullet" />
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="-2" name="On start of layout" type="System" />
+            </conditions>
+            <actions>
+                <action id="-3" name="Set position" type="bar">
+                    <param id="0" name="X">subbar.X</param>
+                    <param id="1" name="Y">subbar.Y</param>
+                </action>
+                <action id="-5" name="Set width" type="bar">
+                    <param id="0" name="Width">self.Width</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-group description="" title="Monster" />
+        <event-block>
+            <conditions>
+                <condition id="-7" name="Compare instance variable" type="jBeeBee">
+                    <param id="0" name="Instance variable">iHealth</param>
+                    <param id="1" name="Comparison">3</param>
+                    <param id="2" name="Value">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Destroy" type="jBeeBee" />
+                <action id="-9" name="Set value" type="System">
+                    <param id="0" name="Variable">iCheckPickups</param>
+                    <param id="1" name="Value">random(1,10)</param>
+                </action>
+            </actions>
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">iCheckPickups</param>
+                            <param id="1" name="Comparison">3</param>
+                            <param id="2" name="Value">1</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Spawn another object" type="jBeeBee">
+                            <param id="0" name="Object">sShield</param>
+                            <param id="1" name="Layer">1</param>
+                            <param id="2" name="Image point">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">iCheckPickups</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Value">1</param>
+                        </condition>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">iCheckPickups</param>
+                            <param id="1" name="Comparison">2</param>
+                            <param id="2" name="Value">4</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Spawn another object" type="jBeeBee">
+                            <param id="0" name="Object">sAmmo</param>
+                            <param id="1" name="Layer">1</param>
+                            <param id="2" name="Image point">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On click" type="Mouse">
+                    <param id="0" name="Mouse button">0</param>
+                    <param id="1" name="Click type">0</param>
+                </condition>
+                <condition id="-14" name="Compare variable" type="System">
+                    <param id="0" name="Variable">iAmmo</param>
+                    <param id="1" name="Comparison">4</param>
+                    <param id="2" name="Value">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="0" name="Spawn another object" type="sPlayer">
+                    <param id="0" name="Object">sBullet</param>
+                    <param id="1" name="Layer">1</param>
+                    <param id="2" name="Image point">0</param>
+                </action>
+                <action id="-11" name="Subtract from" type="System">
+                    <param id="0" name="Variable">iAmmo</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="-18" name="On created" type="jBeeBee" />
+            </conditions>
+            <actions>
+                <action id="-22" name="Set angle toward position" type="jBeeBee">
+                    <param id="0" name="X">0</param>
+                    <param id="1" name="Y">self.Y</param>
+                </action>
+                <action id="4" name="Set animation" type="jBeeBee">
+                    <param id="0" name="Animation">&quot;moving&quot;</param>
+                    <param id="1" name="From">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="-19" name="On destroyed" type="jBeeBee" />
+            </conditions>
+            <actions>
+                <action id="0" name="Spawn another object" type="jBeeBee">
+                    <param id="0" name="Object">sExplosion</param>
+                    <param id="1" name="Layer">1</param>
+                    <param id="2" name="Image point">0</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On collision with another object" type="sBullet">
+                    <param id="0" name="Object">jBeeBee</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-12" name="Subtract from" type="jBeeBee">
+                    <param id="0" name="Instance variable">iHealth</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+                <action id="-9" name="Destroy" type="sBullet" />
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On collision with another object" type="jBeeBee">
+                    <param id="0" name="Object">sPlayer</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Destroy" type="jBeeBee" />
+            </actions>
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">iShield</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-11" name="Subtract from" type="System">
+                            <param id="0" name="Variable">iShield</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">iShield</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-12" name="Subtract from" type="sPlayer">
+                            <param id="0" name="Instance variable">iHealth</param>
+                            <param id="1" name="Value">5</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-group description="" title="SpecialWeapons" />
+        <event-block>
+            <conditions>
+                <condition behavior="DragDrop" id="1" name="On drag start" type="sGrenadeItem" />
+            </conditions>
+            <actions>
+                <action id="-9" name="Set value" type="System">
+                    <param id="0" name="Variable">iShootable</param>
+                    <param id="1" name="Value">0</param>
+                </action>
+                <action id="0" name="Spawn another object" type="sGrenadeItem">
+                    <param id="0" name="Object">sGrenadeItem</param>
+                    <param id="1" name="Layer">2</param>
+                    <param id="2" name="Image point">0</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition behavior="Fade" id="0" name="On fade out finished" type="sGrenade" />
+            </conditions>
+            <actions>
+                <action id="-9" name="Set value" type="System">
+                    <param id="0" name="Variable">iShootable</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition behavior="DragDrop" id="2" name="On drop" type="sGrenadeItem" />
+            </conditions>
+            <actions>
+                <action id="0" name="Spawn another object" type="sGrenadeItem">
+                    <param id="0" name="Object">sGrenade</param>
+                    <param id="1" name="Layer">2</param>
+                    <param id="2" name="Image point">0</param>
+                </action>
+                <action id="-9" name="Destroy" type="sGrenadeItem" />
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition behavior="DragDrop" id="2" name="On drop" type="sGrenadeItem" />
+            </conditions>
+            <actions>
+                <action id="0" name="Spawn another object" type="sGrenadeItem">
+                    <param id="0" name="Object">sGrenade</param>
+                    <param id="1" name="Layer">2</param>
+                    <param id="2" name="Image point">0</param>
+                </action>
+                <action id="-9" name="Destroy" type="sGrenadeItem" />
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition behavior="Fade" id="0" name="On fade out finished" type="sGrenade" />
+            </conditions>
+            <actions>
+                <action id="-9" name="Set value" type="System">
+                    <param id="0" name="Variable">iShootable</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition behavior="DragDrop" id="1" name="On drag start" type="sGrenadeItem" />
+            </conditions>
+            <actions>
+                <action id="-9" name="Set value" type="System">
+                    <param id="0" name="Variable">iShootable</param>
+                    <param id="1" name="Value">0</param>
+                </action>
+                <action id="0" name="Spawn another object" type="sGrenadeItem">
+                    <param id="0" name="Object">sGrenadeItem</param>
+                    <param id="1" name="Layer">2</param>
+                    <param id="2" name="Image point">0</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block>
+            <conditions>
+                <condition id="0" name="On collision with another object" type="sGrenade">
+                    <param id="0" name="Object">jBeeBee</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-12" name="Subtract from" type="jBeeBee">
+                    <param id="0" name="Instance variable">iHealth</param>
+                    <param id="1" name="Value">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-group description="" title="RainDrops">
+            <sub-events>
+                <event-block>
+                    <conditions>
+                        <condition id="-2" name="On start of layout" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">startTime</param>
+                            <param id="1" name="Value">time</param>
+                        </action>
+                        <action id="-29" name="Set layout effect enabled" type="System">
+                            <param id="0" name="Mode">0</param>
+                            <param id="1" name="Effect">&quot;RadialBlur&quot;</param>
+                        </action>
+                        <action id="-29" name="Set layout effect enabled" type="System">
+                            <param id="0" name="Mode">0</param>
+                            <param id="1" name="Effect">&quot;Tint&quot;</param>
+                        </action>
+                        <action id="-29" name="Set layout effect enabled" type="System">
+                            <param id="0" name="Mode">0</param>
+                            <param id="1" name="Effect">&quot;Swirl&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-8" name="Compare two values" type="System">
+                            <param id="0" name="First value">renderer</param>
+                            <param id="1" name="Comparison">1</param>
+                            <param id="2" name="Second value">&quot;webgl&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Set text" type="StatText2">
+                            <param id="0" name="Text">&quot;No webgl support! Shaders not running, try Firefox or Chrome and updating graphics driver&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-8" name="Is boolean instance variable set" type="sPlayer">
+                            <param id="0" name="Instance variable">bRaining</param>
+                        </condition>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">bStartRaining</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">1</param>
+                        </condition>
+                        <condition id="-12" name="Repeat" type="System">
+                            <param id="0" name="Count">500</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-3" name="Create object" type="System">
+                            <param id="0" name="Object to create">Raindrop</param>
+                            <param id="1" name="Layer">&quot;RainDrops&quot;</param>
+                            <param id="2" name="X">0</param>
+                            <param id="3" name="Y">0</param>
+                        </action>
+                        <action id="-10" name="Set value" type="Raindrop">
+                            <param id="0" name="Instance variable">rx</param>
+                            <param id="1" name="Value">random(windowwidth)</param>
+                        </action>
+                        <action id="-10" name="Set value" type="Raindrop">
+                            <param id="0" name="Instance variable">ry</param>
+                            <param id="1" name="Value">random(windowheight)</param>
+                        </action>
+                        <action id="-10" name="Set value" type="Raindrop">
+                            <param id="0" name="Instance variable">rh</param>
+                            <param id="1" name="Value">random(5, 105)</param>
+                        </action>
+                        <action id="-9" name="Set value" type="System">
+                            <param id="0" name="Variable">bStartRaining</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-1" name="Every tick" type="System" />
+                        <condition id="-8" name="Is boolean instance variable set" type="sPlayer">
+                            <param id="0" name="Instance variable">bRaining</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-1" name="Set X" type="Raindrop">
+                            <param id="0" name="X">ScrollX + (Self.rx - ScrollX) * (1.0 + Self.rh / 100.0)</param>
+                        </action>
+                        <action id="-2" name="Set Y" type="Raindrop">
+                            <param id="0" name="Y">ScrollY + (Self.ry - ScrollY) * (1.0 + Self.rh / 100.0)</param>
+                        </action>
+                        <action id="-22" name="Set angle toward position" type="Raindrop">
+                            <param id="0" name="X">ScrollX</param>
+                            <param id="1" name="Y">ScrollY</param>
+                        </action>
+                        <action id="-5" name="Set width" type="Raindrop">
+                            <param id="0" name="Width">distance(Self.X, Self.Y, ScrollX, ScrollY) * Self.rh / 333.0 + 5.0</param>
+                        </action>
+                        <action id="-12" name="Subtract from" type="Raindrop">
+                            <param id="0" name="Instance variable">rh</param>
+                            <param id="1" name="Value">250.0 * dt</param>
+                        </action>
+                        <action id="-16" name="Set opacity" type="Raindrop">
+                            <param id="0" name="Opacity">(100.0 - Self.rh) / 3.0</param>
+                        </action>
+                        <action id="-11" name="Add to" type="Splash">
+                            <param id="0" name="Instance variable">mytime</param>
+                            <param id="1" name="Value">dt</param>
+                        </action>
+                        <action id="-7" name="Set size" type="Splash">
+                            <param id="0" name="Width">lerp(Self.startsize, Self.size, Self.mytime * 2)</param>
+                            <param id="1" name="Height">lerp(Self.startsize, Self.size, Self.mytime * 2)</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-7" name="Compare instance variable" type="Raindrop">
+                            <param id="0" name="Instance variable">rh</param>
+                            <param id="1" name="Comparison">2</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-28" name="Set canvas size" type="System">
+                            <param id="0" name="Width">0</param>
+                            <param id="1" name="Height">0</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block>
+                            <conditions>
+                                <condition id="1" name="Is overlapping another object" type="Raindrop">
+                                    <param id="0" name="Object">Puddles</param>
+                                </condition>
+                                <condition id="-27" name="Effects are supported" type="System" />
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Spawn another object" type="Raindrop">
+                                    <param id="0" name="Object">Splash</param>
+                                    <param id="1" name="Layer">&quot;RainSplashes&quot;</param>
+                                    <param id="2" name="Image point">1</param>
+                                </action>
+                                <action id="-10" name="Set value" type="Splash">
+                                    <param id="0" name="Instance variable">size</param>
+                                    <param id="1" name="Value">random(14, 40)</param>
+                                </action>
+                                <action id="-7" name="Set size" type="Splash">
+                                    <param id="0" name="Width">1</param>
+                                    <param id="1" name="Height">1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block>
+                            <conditions>
+                                <condition id="-1" name="Every tick" type="System" />
+                            </conditions>
+                            <actions>
+                                <action id="-10" name="Set value" type="Raindrop">
+                                    <param id="0" name="Instance variable">rx</param>
+                                    <param id="1" name="Value">random(ViewportLeft(&quot;RainDrops&quot;), ViewportRight(&quot;RainDrops&quot;))</param>
+                                </action>
+                                <action id="-10" name="Set value" type="Raindrop">
+                                    <param id="0" name="Instance variable">ry</param>
+                                    <param id="1" name="Value">random(ViewportTop(&quot;RainDrops&quot;), ViewportBottom(&quot;RainDrops&quot;))</param>
+                                </action>
+                                <action id="-10" name="Set value" type="Raindrop">
+                                    <param id="0" name="Instance variable">rh</param>
+                                    <param id="1" name="Value">random(95, 105)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block>
+                    <conditions>
+                        <condition id="-8" inverted="1" name="Is boolean instance variable set" type="sPlayer">
+                            <param id="0" name="Instance variable">bRaining</param>
+                        </condition>
+                        <condition id="-11" name="For Each" type="System">
+                            <param id="0" name="Object">Raindrop</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Destroy" type="Raindrop" />
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+    </events>
+</c2eventsheet>
