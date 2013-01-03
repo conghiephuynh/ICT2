@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Survival_Events</name>
+    <events>
+        <event-group collapsed="1" description="Gameover process" title="GameOver">
+            <sub-events>
+                <event-block any="1">
+                    <conditions>
+                        <condition id="-7" name="Compare instance variable" type="sPlayer">
+                            <param id="0" name="Instance variable">nHealth</param>
+                            <param id="1" name="Comparison">3</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                        <condition id="-14" name="Compare variable" type="System">
+                            <param id="0" name="Variable">bCityDestroyed</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">1</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Destroy" type="sPlayer" />
+                        <action id="0" name="Spawn another object" type="sPlayer">
+                            <param id="0" name="Object">sExplosion</param>
+                            <param id="1" name="Layer">5</param>
+                            <param id="2" name="Image point">1</param>
+                        </action>
+                        <action id="-15" name="Set visible" type="TxtGOver">
+                            <param id="0" name="Visibility">1</param>
+                        </action>
+                        <action id="-16" name="Wait" type="System">
+                            <param id="0" name="Seconds">3</param>
+                        </action>
+                        <action id="-15" name="Set visible" type="TxtGOver">
+                            <param id="0" name="Visibility">1</param>
+                        </action>
+                        <action id="-2" name="Go to layout" type="System">
+                            <param id="0" name="Layout">LeaderBoards</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+           </events>
+</c2eventsheet>
